@@ -46,8 +46,7 @@ class UserDatabase:
         return None
     
     def get_user_by_id(self, user_id):
-        query = f"SELECT * FROM users WHERE id = {user_id}"
-        self.cursor.execute(query)
+        self.cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
         return self.cursor.fetchone()
     
     def update_email(self, user_id, new_email):
@@ -67,6 +66,6 @@ if __name__ == "__main__":
     db.add_user("admin", "password123", "admin@example.com")
     db.authenticate("admin", "password123")
     
-    user_data = db.get_user_by_id("abc")
+    user_data = db.get_user_by_id(1)  # Fixed: using an integer instead of a string
     if user_data:
         print(f"Found user: {user_data}")
